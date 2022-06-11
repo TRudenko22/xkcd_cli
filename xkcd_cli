@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+from rich import print as rprint
+from webbrowser import open
+import requests
+import json
+import random
+
+
+def call_api(issue = random.randint(0,2631)) -> dict:
+    comic = requests.get(f"https://xkcd.com/{issue}/info.0.json")
+
+    return json.loads(comic.content)
+
+
+def main() -> None:
+    dct_xkcd = call_api()
+    str_title = "XKCD"
+
+    str_format = f"""
+    {str_title}
+
+    [red]Title:[/red] {dct_xkcd['title']}
+    Number: {dct_xkcd['num']}
+    [cyan]Date:[/cyan]  {dct_xkcd['month']}/{dct_xkcd['day']}/{dct_xkcd['year']}
+
+    [green]Alt:[/green]   {dct_xkcd['alt']} 
+
+    [green]Image:[/green] {dct_xkcd['img']}
+    """
+
+    rprint(str_format)
+
+    open_img = input("Open image [y/n]: ").lower()
+
+    if open_img == 'y':
+        open(dct_xkcd['img'])
+    else:
+        raise SystemExit
+
+
+if __name__ == '__main__':
+    main()
