@@ -7,7 +7,7 @@ import json
 import random
 
 
-def call_api(issue = random.randint(0,2631)) -> dict:
+def call_api(issue = random.randint(0,2631)) -> Dict:
     comic = requests.get(f"https://xkcd.com/{issue}/info.0.json")
 
     return json.loads(comic.content)
